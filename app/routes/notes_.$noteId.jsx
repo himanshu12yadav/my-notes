@@ -14,18 +14,17 @@ export const loader = async ({params})=>{
 
 export default function NoteDetailsPage(){
     const loaderData = useLoaderData();
-    const {title, content} = loaderData;
-    console.log(loaderData);
+
     return (
         <main id="note-details">
             <header>
                 <nav>
                     <Link to="/notes">Back to all Notes</Link>
                 </nav>
-                <h1>{title}</h1>
+                <h1>{loaderData?.title}</h1>
             </header>
             <p id="note-details-content">
-                {content}
+                {loaderData?.content}
             </p>
         </main>
     )
@@ -36,7 +35,7 @@ export const ErrorBoundary = ()=>{
 
     return (
         <main className="error">
-            <h1>{JSON.parse(caughtError.data).message}</h1>
+            <h1>{JSON.parse(caughtError.data)?.message}</h1>
             <p>
                 <Link to="/notes">Create a new note</Link>
             </p>
@@ -52,9 +51,10 @@ export const links = ()=>{
 }
 
 
-export const meta = ({data})=>{
+export const meta = (props)=>{
+    const data = props?.data;
     return [{
-        title:data.title,
+        title:data ? data.title : "Error",
         description:"Note Details Page"
     }]
 }
